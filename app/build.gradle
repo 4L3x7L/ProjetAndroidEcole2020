@@ -47,4 +47,13 @@ dependencies {
 
     //RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    //Api
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    //gson
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    //card
+    implementation 'androidx.cardview:cardview:1.0.0'
 }

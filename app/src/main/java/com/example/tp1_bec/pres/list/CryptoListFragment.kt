@@ -1,15 +1,21 @@
 package com.example.tp1_bec.pres.list
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tp1_bec.R
+import com.example.tp1_bec.pres.api.CryptoApi
+import com.example.tp1_bec.pres.api.CryptoResp
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -37,14 +43,24 @@ class CryptoListFragment : Fragment() {
             adapter = this@CryptoListFragment.adapter
         }
 
-        val cryptoList : ArrayList<Crypto> = arrayListOf<Crypto>().apply {
-            add(Crypto("Bitcoin"))
-            add(Crypto("Etherum"))
-            add(Crypto("Dogecoin"))
-            add(Crypto("BinanceCoin"))
-            add(Crypto("Ripple"))
-        }
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.coincap.io/v2/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
-        adapter.updateList(cryptoList)
+        val cryptoApi: CryptoApi = retrofit.create(CryptoApi::class.java)
+
+        cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp>{
+            override fun onFailure(call: Call<CryptoResp>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onResponse(call: Call<CryptoResp>, response: Response<CryptoResp>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val cryptoResp: CryptoResp = response.body()!!
+                    adapter.updateList(cryptoResp.data)
+                }
+            }
+        })
     }
 }
