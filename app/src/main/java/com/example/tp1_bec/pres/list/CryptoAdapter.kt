@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tp1_bec.R
 
 
-class CryptoAdapter(private var dataSet: List<Crypto>, val listener: ((Crypto)-> Unit)? = null) : RecyclerView.Adapter<CryptoAdapter.ViewHolder>() {
+class CryptoAdapter(private var dataSet: List<Crypto>, val listener: ((String)-> Unit)? = null) : RecyclerView.Adapter<CryptoAdapter.ViewHolder>() {
 
 
 
@@ -52,7 +52,7 @@ class CryptoAdapter(private var dataSet: List<Crypto>, val listener: ((Crypto)->
         viewHolder.trigram.text = crypto.symbol
         viewHolder.priceUsd.text = "%.2f".format(crypto.priceUsd.toDouble())
         viewHolder.itemView.setOnClickListener {
-            listener?.invoke(crypto)
+            listener?.invoke(crypto.name)
         }
     }
 

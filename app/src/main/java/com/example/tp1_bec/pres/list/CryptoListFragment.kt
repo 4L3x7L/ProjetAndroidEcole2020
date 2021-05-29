@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +44,7 @@ class CryptoListFragment : Fragment() {
             layoutManager = this@CryptoListFragment.layoutManager
             adapter = this@CryptoListFragment.adapter
         }
+
         callApi()
 
         val refresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
@@ -50,7 +52,6 @@ class CryptoListFragment : Fragment() {
             callApi()
             if (refresh.isRefreshing) refresh.isRefreshing = false
         }
-
     }
         fun callApi(){
             Singletons.cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp>{
@@ -68,7 +69,9 @@ class CryptoListFragment : Fragment() {
         }
 
 
-    private fun onClickedCrypto( crypto: Crypto) {
-        findNavController().navigate(R.id.CryptoListFragementToCryptoDetailsFragement)
+    private fun onClickedCrypto(name:String) {
+        findNavController().navigate(R.id.CryptoListFragementToCryptoDetailsFragement, bundleOf(
+            "nameCrypto" to name
+        ))
     }
 }

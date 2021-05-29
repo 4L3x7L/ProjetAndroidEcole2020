@@ -24,5 +24,9 @@
         <action
             android:id="@+id/CryptoDetailsFragementToCryptoListFragement"
             app:destination="@id/CryptoListFragement" />
+        <argument
+            android:name="nameCrypto"
+            app:argType="string" />
+
     </fragment>
 </navigation>

@@ -46,7 +46,9 @@ class CryptoDetailsFragement : Fragment() {
     }
 
     fun callApi(){
-        Singletons.cryptoApi.getCrypto("bitcoin").enqueue(object: Callback<CryptoData>{
+        var name = arguments?.getString("nameCrypto")
+        name = name!!.toLowerCase().replace(("\\s+".toRegex()), "-")
+        Singletons.cryptoApi.getCrypto(name).enqueue(object: Callback<CryptoData>{
             override fun onFailure(call: Call<CryptoData>, t: Throwable) {
                 TODO("Not yet implemented")
             }
@@ -54,7 +56,7 @@ class CryptoDetailsFragement : Fragment() {
             override fun onResponse(call: Call<CryptoData>, response: Response<CryptoData>) {
                 if (response.isSuccessful && response.body() != null) {
                     val crypto: CryptoData = response.body()!!
-                    textName.text = crypto.data.name
+                    textName.text = name
                     trigram.text = crypto.data.symbol
                     priceUsd.text = "%.2f".format(crypto.data.priceUsd.toDouble())
                 }
