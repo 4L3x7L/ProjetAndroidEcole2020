@@ -17,10 +17,15 @@ class CryptoAdapter(private var dataSet: List<Crypto>, val listener: ((Crypto)->
      * (custom ViewHolder).
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView
+        val name: TextView
+        val trigram: TextView
+        val priceUsd: TextView
         init {
             // Define click listener for the ViewHolder's View.
-            textView = view.findViewById(R.id.crypot_name)
+            name = view.findViewById(R.id.crypto_name)
+            trigram = view.findViewById(R.id.crypto_trigram)
+            priceUsd = view.findViewById(R.id.crypto_price)
+
         }
     }
 
@@ -43,7 +48,9 @@ class CryptoAdapter(private var dataSet: List<Crypto>, val listener: ((Crypto)->
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         val crypto: Crypto = dataSet[position]
-        viewHolder.textView.text = crypto.name
+        viewHolder.name.text = crypto.name
+        viewHolder.trigram.text = crypto.symbol
+        viewHolder.priceUsd.text = "%.2f".format(crypto.priceUsd.toDouble())
         viewHolder.itemView.setOnClickListener {
             listener?.invoke(crypto)
         }

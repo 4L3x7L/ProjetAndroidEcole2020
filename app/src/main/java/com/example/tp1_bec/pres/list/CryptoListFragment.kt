@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.tp1_bec.R
 import com.example.tp1_bec.pres.api.CryptoApi
 import com.example.tp1_bec.pres.api.CryptoResp
@@ -44,27 +45,40 @@ class CryptoListFragment : Fragment() {
             layoutManager = this@CryptoListFragment.layoutManager
             adapter = this@CryptoListFragment.adapter
         }
+        callApi()
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.coincap.io/v2/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val refresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
+        refresh.setOnRefreshListener {
+            callApi()
+            if (refresh.isRefreshing) refresh.isRefreshing = false
+        }
 
-        val cryptoApi: CryptoApi = retrofit.create(CryptoApi::class.java)
-
-        cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp>{
-            override fun onFailure(call: Call<CryptoResp>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onResponse(call: Call<CryptoResp>, response: Response<CryptoResp>) {
-                if (response.isSuccessful && response.body() != null) {
-                    val cryptoResp: CryptoResp = response.body()!!
-                    adapter.updateList(cryptoResp.data)
-                }
-            }
-        })
     }
+        fun callApi(){
+            val retrofit = Retrofit.Builder()
+                    .baseUrl("https://api.coincap.io/v2/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+
+            val cryptoApi: CryptoApi = retrofit.create(CryptoApi::class.java)
+
+            cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp>{
+                override fun onFailure(call: Call<CryptoResp>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onResponse(call: Call<CryptoResp>, response: Response<CryptoResp>) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val cryptoResp: CryptoResp = response.body()!!
+                        adapter.updateList(cryptoResp.data)
+                    }
+                }
+            })
+        }
+
+
+
+
 
     private fun onClickedCrypto( crypto: Crypto) {
         findNavController().navigate(R.id.CryptoListFragementToCryptoDetailsFragement)

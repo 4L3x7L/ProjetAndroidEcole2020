@@ -5,12 +5,14 @@ data class Crypto(
     val rank: String,
     val symbol: String,
     val name: String,
-    val supply: Double,
-    val maxSupply: Double,
-    val marketCapUsd: Double,
-    val volumeUsd24Hr: Double,
-    val priceUsd: Double,
-    val changePercent24Hr: Double,
-    val vwap24Hr: Double,
+    val supply: String,
+    val maxSupply: String,
+    val marketCapUsd: String,
+    val volumeUsd24Hr: String,
+    val priceUsd: String,
+    val changePercent24Hr: String,
+    val vwap24Hr: String,
     val explorer: String
+
+
 )
