@@ -10,13 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.tp1_bec.R
-import com.example.tp1_bec.pres.api.CryptoApi
+import com.example.tp1_bec.pres.Singletons
 import com.example.tp1_bec.pres.api.CryptoResp
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 /**
@@ -55,14 +53,7 @@ class CryptoListFragment : Fragment() {
 
     }
         fun callApi(){
-            val retrofit = Retrofit.Builder()
-                    .baseUrl("https://api.coincap.io/v2/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-
-            val cryptoApi: CryptoApi = retrofit.create(CryptoApi::class.java)
-
-            cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp>{
+            Singletons.cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp>{
                 override fun onFailure(call: Call<CryptoResp>, t: Throwable) {
                     TODO("Not yet implemented")
                 }
@@ -75,9 +66,6 @@ class CryptoListFragment : Fragment() {
                 }
             })
         }
-
-
-
 
 
     private fun onClickedCrypto( crypto: Crypto) {
