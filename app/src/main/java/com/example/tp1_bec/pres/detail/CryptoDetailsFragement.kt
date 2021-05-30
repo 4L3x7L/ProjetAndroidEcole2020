@@ -43,11 +43,11 @@ class CryptoDetailsFragement : Fragment() {
         volume = view.findViewById(R.id.crypto_volumeUsd24Hr)
         changePercent24h = view.findViewById(R.id.crypto_changePercent24Hr)
         callApi()
-        //val refresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
-        //refresh.setOnRefreshListener {
-        //    callApi()
-        //    if (refresh.isRefreshing) refresh.isRefreshing = false
-        //}
+        val refresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
+        refresh.setOnRefreshListener {
+            callApi()
+            if (refresh.isRefreshing) refresh.isRefreshing = false
+        }
     }
 
     fun callApi(){

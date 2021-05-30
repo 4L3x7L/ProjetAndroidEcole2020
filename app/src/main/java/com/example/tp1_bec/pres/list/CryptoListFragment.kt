@@ -26,8 +26,6 @@ class CryptoListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private val adapter = CryptoAdapter(listOf(), ::onClickedCrypto)
 
-    private val layoutManager = LinearLayoutManager(context)
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -41,12 +39,10 @@ class CryptoListFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.crypto_recyclerview)
         recyclerView.apply {
-            layoutManager = this@CryptoListFragment.layoutManager
+            layoutManager = LinearLayoutManager(context)
             adapter = this@CryptoListFragment.adapter
         }
-        
         callApi()
-
         val refresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
         refresh.setOnRefreshListener {
             callApi()
@@ -68,8 +64,6 @@ class CryptoListFragment : Fragment() {
             }
         })
     }
-
-
 
     private fun onClickedCrypto(name:String) {
         findNavController().navigate(R.id.CryptoListFragementToCryptoDetailsFragement, bundleOf(
