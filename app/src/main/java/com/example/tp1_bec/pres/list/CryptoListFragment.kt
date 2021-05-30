@@ -1,9 +1,11 @@
 package com.example.tp1_bec.pres.list
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,9 +15,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.tp1_bec.R
 import com.example.tp1_bec.pres.Singletons
 import com.example.tp1_bec.pres.api.CryptoResp
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.reflect.Type
 
 
 /**
@@ -25,6 +30,9 @@ class CryptoListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private val adapter = CryptoAdapter(listOf(), ::onClickedCrypto)
+
+    val sharedPref = activity?.getSharedPreferences("app", Context.MODE_PRIVATE)
+
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +50,14 @@ class CryptoListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = this@CryptoListFragment.adapter
         }
-        callApi()
+        val list = getListFromCache()
+        if (list.isEmpty()){
+            callApi()
+        } else {
+            showList(list)
+        }
+
+
         val refresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
         refresh.setOnRefreshListener {
             callApi()
@@ -50,16 +65,40 @@ class CryptoListFragment : Fragment() {
         }
     }
 
+    fun getListFromCache(): List<Crypto> {
+        val gson = Gson()
+        val json = sharedPref?.getString("LIST",null)
+        if (json == null){
+            return emptyList()
+        } else {
+            val type = object :TypeToken<List<Crypto>>(){}.type//converting the json to list
+            return gson.fromJson(json,type)//returning the list
+        }
+   }
+
+
+    private fun saveListIntoCache(cryptoList: List<Crypto>) {
+        var gson = Gson()
+        var json :String = gson.toJson(cryptoList)
+       sharedPref?.edit()?.putString("List", json)?.commit()
+
+    }
+
+    private fun showList(cryptoList: List<Crypto>) {
+        adapter.updateList(cryptoList)
+    }
+
     fun callApi(){
         Singletons.cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp>{
             override fun onFailure(call: Call<CryptoResp>, t: Throwable) {
-                TODO("Not yet implemented")
+               // TODO("Not yet implemented")
             }
 
             override fun onResponse(call: Call<CryptoResp>, response: Response<CryptoResp>) {
                 if (response.isSuccessful && response.body() != null) {
                     val cryptoResp: CryptoResp = response.body()!!
-                    adapter.updateList(cryptoResp.data)
+                    saveListIntoCache(cryptoResp.data)
+                    showList(cryptoResp.data)
                 }
             }
         })

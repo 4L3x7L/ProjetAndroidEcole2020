@@ -55,7 +55,7 @@ class CryptoDetailsFragement : Fragment() {
         name = name!!.toLowerCase().replace(("\\s+".toRegex()), "-")
         Singletons.cryptoApi.getCrypto(name).enqueue(object: Callback<CryptoData>{
             override fun onFailure(call: Call<CryptoData>, t: Throwable) {
-                TODO("Not yet implemented")
+                //TODO("Not yet implemented")
             }
 
             override fun onResponse(call: Call<CryptoData>, response: Response<CryptoData>) {
