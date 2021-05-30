@@ -31,7 +31,7 @@ class CryptoListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private val adapter = CryptoAdapter(listOf(), ::onClickedCrypto)
 
-    val sharedPref = activity?.getSharedPreferences("app", Context.MODE_PRIVATE)
+   // val sharedPref = activity?.getSharedPreferences("app", Context.MODE_PRIVATE)
 
 
     override fun onCreateView(
@@ -50,24 +50,19 @@ class CryptoListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = this@CryptoListFragment.adapter
         }
-        val list = getListFromCache()
-        if (list.isEmpty()){
-            callApi()
-        } else {
-            showList(list)
-        }
-
-
+        callApi()
         val refresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
         refresh.setOnRefreshListener {
             callApi()
+
             if (refresh.isRefreshing) refresh.isRefreshing = false
         }
     }
 
     fun getListFromCache(): List<Crypto> {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         val gson = Gson()
-        val json = sharedPref?.getString("LIST",null)
+        val json = sharedPref?.getString("LIST", null)
         if (json == null){
             return emptyList()
         } else {
@@ -80,7 +75,11 @@ class CryptoListFragment : Fragment() {
     private fun saveListIntoCache(cryptoList: List<Crypto>) {
         var gson = Gson()
         var json :String = gson.toJson(cryptoList)
-       sharedPref?.edit()?.putString("List", json)?.commit()
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putString("LIST", json)
+            apply()
+        }
 
     }
 
@@ -91,7 +90,12 @@ class CryptoListFragment : Fragment() {
     fun callApi(){
         Singletons.cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp>{
             override fun onFailure(call: Call<CryptoResp>, t: Throwable) {
-               // TODO("Not yet implemented")
+                val list: List<Crypto> = getListFromCache()
+                if (list.isEmpty()){
+                    callApi()
+                } else {
+                    showList(list)
+                }
             }
 
             override fun onResponse(call: Call<CryptoResp>, response: Response<CryptoResp>) {
