@@ -10,7 +10,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.tp1_bec.R
 import com.example.tp1_bec.pres.Singletons
 import com.example.tp1_bec.pres.api.CryptoData
-import com.example.tp1_bec.pres.list.Crypto
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,6 +22,9 @@ class CryptoDetailsFragement : Fragment() {
     private lateinit var textName: TextView
     private lateinit var trigram: TextView
     private lateinit var priceUsd: TextView
+    private lateinit var marketCap: TextView
+    private lateinit var volume: TextView
+    private lateinit var changePercent24h: TextView
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +37,11 @@ class CryptoDetailsFragement : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         textName = view.findViewById(R.id.crypto_name)
-        trigram = view.findViewById(R.id.crypto_trigram)
-        priceUsd = view.findViewById(R.id.crypto_price)
+        trigram = view.findViewById(R.id.crypto_symbol)
+        priceUsd = view.findViewById(R.id.crypto_priceUsd)
+        marketCap = view.findViewById(R.id.crypto_marketCapUsd)
+        volume = view.findViewById(R.id.crypto_volumeUsd24Hr)
+        changePercent24h = view.findViewById(R.id.crypto_changePercent24Hr)
         callApi()
         val refresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
         refresh.setOnRefreshListener {
@@ -56,9 +61,12 @@ class CryptoDetailsFragement : Fragment() {
             override fun onResponse(call: Call<CryptoData>, response: Response<CryptoData>) {
                 if (response.isSuccessful && response.body() != null) {
                     val crypto: CryptoData = response.body()!!
-                    textName.text = name
+                    textName.text = crypto.data.name
                     trigram.text = crypto.data.symbol
                     priceUsd.text = "%.2f".format(crypto.data.priceUsd.toDouble())
+                    marketCap.text = "%.2f".format(crypto.data.marketCapUsd.toDouble())
+                    volume.text = "%.2f".format(crypto.data.volumeUsd24Hr.toDouble())
+                    changePercent24h.text = "%.2f".format(crypto.data.changePercent24Hr.toDouble())
                 }
             }
         })

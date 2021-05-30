@@ -23,8 +23,8 @@ class CryptoAdapter(private var dataSet: List<Crypto>, val listener: ((String)->
         init {
             // Define click listener for the ViewHolder's View.
             name = view.findViewById(R.id.crypto_name)
-            trigram = view.findViewById(R.id.crypto_trigram)
-            priceUsd = view.findViewById(R.id.crypto_price)
+            trigram = view.findViewById(R.id.crypto_symbol)
+            priceUsd = view.findViewById(R.id.crypto_priceUsd)
 
         }
     }
