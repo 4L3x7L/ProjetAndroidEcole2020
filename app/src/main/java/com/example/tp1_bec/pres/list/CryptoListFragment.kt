@@ -44,7 +44,7 @@ class CryptoListFragment : Fragment() {
             layoutManager = this@CryptoListFragment.layoutManager
             adapter = this@CryptoListFragment.adapter
         }
-
+        
         callApi()
 
         val refresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
@@ -53,20 +53,22 @@ class CryptoListFragment : Fragment() {
             if (refresh.isRefreshing) refresh.isRefreshing = false
         }
     }
-        fun callApi(){
-            Singletons.cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp>{
-                override fun onFailure(call: Call<CryptoResp>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
 
-                override fun onResponse(call: Call<CryptoResp>, response: Response<CryptoResp>) {
-                    if (response.isSuccessful && response.body() != null) {
-                        val cryptoResp: CryptoResp = response.body()!!
-                        adapter.updateList(cryptoResp.data)
-                    }
+    fun callApi(){
+        Singletons.cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp>{
+            override fun onFailure(call: Call<CryptoResp>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onResponse(call: Call<CryptoResp>, response: Response<CryptoResp>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val cryptoResp: CryptoResp = response.body()!!
+                    adapter.updateList(cryptoResp.data)
                 }
-            })
-        }
+            }
+        })
+    }
+
 
 
     private fun onClickedCrypto(name:String) {
