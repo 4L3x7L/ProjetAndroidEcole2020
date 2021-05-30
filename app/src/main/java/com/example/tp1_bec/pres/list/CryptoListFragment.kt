@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -31,9 +32,6 @@ class CryptoListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private val adapter = CryptoAdapter(listOf(), ::onClickedCrypto)
 
-   // val sharedPref = activity?.getSharedPreferences("app", Context.MODE_PRIVATE)
-
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -50,11 +48,11 @@ class CryptoListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = this@CryptoListFragment.adapter
         }
+
         callApi()
         val refresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
         refresh.setOnRefreshListener {
             callApi()
-
             if (refresh.isRefreshing) refresh.isRefreshing = false
         }
     }
@@ -71,7 +69,6 @@ class CryptoListFragment : Fragment() {
         }
    }
 
-
     private fun saveListIntoCache(cryptoList: List<Crypto>) {
         var gson = Gson()
         var json :String = gson.toJson(cryptoList)
@@ -80,7 +77,6 @@ class CryptoListFragment : Fragment() {
             putString("LIST", json)
             apply()
         }
-
     }
 
     private fun showList(cryptoList: List<Crypto>) {
@@ -90,12 +86,8 @@ class CryptoListFragment : Fragment() {
     fun callApi(){
         Singletons.cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp>{
             override fun onFailure(call: Call<CryptoResp>, t: Throwable) {
-                val list: List<Crypto> = getListFromCache()
-                if (list.isEmpty()){
-                    callApi()
-                } else {
-                    showList(list)
-                }
+                showList(getListFromCache())
+                Toast.makeText(activity, "Vous etes off-line", Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(call: Call<CryptoResp>, response: Response<CryptoResp>) {

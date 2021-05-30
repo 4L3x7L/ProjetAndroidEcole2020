@@ -1,15 +1,20 @@
 package com.example.tp1_bec.pres.detail
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.tp1_bec.R
 import com.example.tp1_bec.pres.Singletons
 import com.example.tp1_bec.pres.api.CryptoData
+import com.example.tp1_bec.pres.list.Crypto
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,7 +60,7 @@ class CryptoDetailsFragement : Fragment() {
         name = name!!.toLowerCase().replace(("\\s+".toRegex()), "-")
         Singletons.cryptoApi.getCrypto(name).enqueue(object: Callback<CryptoData>{
             override fun onFailure(call: Call<CryptoData>, t: Throwable) {
-                //TODO("Not yet implemented")
+                Toast.makeText(activity, "Vous etes off-line", Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(call: Call<CryptoData>, response: Response<CryptoData>) {
