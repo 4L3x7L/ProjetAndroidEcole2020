@@ -58,7 +58,7 @@ class CryptoListFragment : Fragment() {
                 showList(cryptoModel.cryptoList)
             } else if (cryptoModel is CryptoError){
                 showList(getListFromCache())
-                Toast.makeText(activity, "Vous etes off-line", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Vous etes offline", Toast.LENGTH_LONG).show()
             }
         })
 
