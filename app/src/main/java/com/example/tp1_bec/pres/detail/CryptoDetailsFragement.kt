@@ -55,6 +55,7 @@ class CryptoDetailsFragement : Fragment() {
         }
     }
 
+
     fun callApi(){
         var name = arguments?.getString("nameCrypto")
         name = name!!.toLowerCase().replace(("\\s+".toRegex()), "-")

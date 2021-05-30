@@ -52,18 +52,22 @@ class CryptoListFragment : Fragment() {
             adapter = this@CryptoListFragment.adapter
         }
 
-        viewModel.cryptoList.observe(viewLifecycleOwner, Observer { list ->
-            showList(list)
+        viewModel.cryptoList.observe(viewLifecycleOwner, Observer { cryptoModel ->
+            if (cryptoModel is CryptoSuccess){
+                saveListIntoCache(cryptoModel.cryptoList)
+                showList(cryptoModel.cryptoList)
+            } else if (cryptoModel is CryptoError){
+                showList(getListFromCache())
+                Toast.makeText(activity, "Vous etes off-line", Toast.LENGTH_LONG).show()
+            }
         })
 
+        val refresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
+        refresh.setOnRefreshListener {
+            viewModel.callApi()
+            if (refresh.isRefreshing) refresh.isRefreshing = false
+        }
 
-
-        //callApi()
-        //val refresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
-        //refresh.setOnRefreshListener {
-        //    callApi()
-        //    if (refresh.isRefreshing) refresh.isRefreshing = false
-        //}
     }
 
     fun getListFromCache(): List<Crypto> {
@@ -91,23 +95,6 @@ class CryptoListFragment : Fragment() {
     private fun showList(cryptoList: List<Crypto>) {
         adapter.updateList(cryptoList)
     }
-
-    //fun callApi(){
-    //    Singletons.cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp>{
-    //        override fun onFailure(call: Call<CryptoResp>, t: Throwable) {
-    //            showList(getListFromCache())
-    //            Toast.makeText(activity, "Vous etes off-line", Toast.LENGTH_LONG).show()
-    //        }
-
-    //        override fun onResponse(call: Call<CryptoResp>, response: Response<CryptoResp>) {
-    //            if (response.isSuccessful && response.body() != null) {
-    //                val cryptoResp: CryptoResp = response.body()!!
-    //                saveListIntoCache(cryptoResp.data)
-    //                showList(cryptoResp.data)
-    //            }
-    //        }
-    //    })
-    //}
 
     private fun onClickedCrypto(name:String) {
         findNavController().navigate(R.id.CryptoListFragementToCryptoDetailsFragement, bundleOf(

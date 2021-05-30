@@ -10,16 +10,18 @@ import java.io.File
 
 class Singletons {
     companion object {
-        var cache = Cache(File(context?.cacheDir, "responses"), 10 * 1024 * 1024 )// 10 MiB
+        //Pas de control cache dans le header HTTP
 
-        private val okHttpClient: OkHttpClient = OkHttpClient().newBuilder()
-                .cache(cache)
-                .build()
+        //var cache = Cache(File(context?.cacheDir, "responses"), 10 * 1024 * 1024 )// 10 MiB
+
+        //private val okHttpClient: OkHttpClient = OkHttpClient().newBuilder()
+        //        .cache(cache)
+        //        .build()
 
         val cryptoApi: CryptoApi = Retrofit.Builder()
             .baseUrl("https://api.coincap.io/v2/")
             .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
+        //    .client(okHttpClient)
             .build()
             .create(CryptoApi::class.java)
     }

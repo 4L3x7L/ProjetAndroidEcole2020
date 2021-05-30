@@ -14,26 +14,23 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CryptoListViewModel : ViewModel() {
-    val cryptoList : MutableLiveData<List<Crypto>> = MutableLiveData()
+    val cryptoList : MutableLiveData<CryptoModel> = MutableLiveData()
 
     init {
         callApi()
     }
 
 
-    private fun callApi(){
+    fun callApi(){
         Singletons.cryptoApi.getCryptoList().enqueue(object: Callback<CryptoResp> {
             override fun onFailure(call: Call<CryptoResp>, t: Throwable) {
-                //showList(getListFromCache())
-                //Toast.makeText(activity, "Vous etes off-line", Toast.LENGTH_LONG).show()
+                cryptoList.value = CryptoError
             }
 
             override fun onResponse(call: Call<CryptoResp>, response: Response<CryptoResp>) {
                 if (response.isSuccessful && response.body() != null) {
                     val cryptoResp: CryptoResp = response.body()!!
-                    cryptoList.value = cryptoResp.data
-                    //saveListIntoCache(cryptoResp.data)
-                    //showList(cryptoResp.data)
+                    cryptoList.value = CryptoSuccess(cryptoResp.data)
                 }
             }
         })
