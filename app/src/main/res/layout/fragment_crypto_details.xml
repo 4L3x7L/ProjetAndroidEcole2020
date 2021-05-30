@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cardview_dark_background"
 
     tools:context=".pres.detail.CryptoDetailsFragement">
 
@@ -29,7 +30,8 @@
         app:layout_constraintTop_toTopOf="@+id/crypto_name"
         app:layout_constraintEnd_toStartOf="@+id/crypto_name"
         android:text="Nom : "
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:id="@+id/crypto_name"
         android:layout_width="wrap_content"
@@ -40,7 +42,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="le nom"
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,7 +51,8 @@
         app:layout_constraintTop_toTopOf="@+id/crypto_symbol"
         app:layout_constraintEnd_toStartOf="@+id/crypto_symbol"
         android:text="Abréviation : "
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:id="@+id/crypto_symbol"
         android:layout_width="wrap_content"
@@ -59,7 +63,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="trigramm"
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -67,7 +72,8 @@
         app:layout_constraintTop_toTopOf="@+id/crypto_priceUsd"
         app:layout_constraintEnd_toStartOf="@+id/crypto_priceUsd"
         android:text="Prix :"
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:id="@+id/crypto_priceUsd"
         android:layout_width="wrap_content"
@@ -78,21 +84,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="prixusd"
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/crypto_priceUsd"
         app:layout_constraintStart_toEndOf="@+id/crypto_priceUsd"
         android:text="$"
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/crypto_marketCapUsd"
         app:layout_constraintEnd_toStartOf="@+id/crypto_marketCapUsd"
         android:text="Marketcap : "
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:id="@+id/crypto_marketCapUsd"
         android:layout_width="wrap_content"
@@ -103,21 +112,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="marketcap"
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/crypto_marketCapUsd"
         app:layout_constraintStart_toEndOf="@+id/crypto_marketCapUsd"
         android:text="$"
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/crypto_volumeUsd24Hr"
         app:layout_constraintEnd_toStartOf="@+id/crypto_volumeUsd24Hr"
         android:text="Volume : "
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:id="@+id/crypto_volumeUsd24Hr"
         android:layout_width="wrap_content"
@@ -128,21 +140,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="volume 24H"
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/crypto_volumeUsd24Hr"
         app:layout_constraintStart_toEndOf="@+id/crypto_volumeUsd24Hr"
         android:text="$"
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/crypto_changePercent24Hr"
         app:layout_constraintEnd_toStartOf="@+id/crypto_changePercent24Hr"
         android:text="Variation (24H) : "
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:id="@+id/crypto_changePercent24Hr"
         android:layout_width="wrap_content"
@@ -153,13 +168,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="10.22"
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/crypto_changePercent24Hr"
         app:layout_constraintStart_toEndOf="@+id/crypto_changePercent24Hr"
         android:text="%"
-        android:textSize="19sp"/>
+        android:textSize="19sp"
+        android:textColor="@color/cardview_light_background"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
